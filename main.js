@@ -123,7 +123,6 @@ async function loadTexture(gl, url) {
         image.onload = function() {
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-            // gl.generateMipmap(gl.TEXTURE_2D);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     
@@ -139,6 +138,7 @@ function draw(gl, programInfo, buffers, texture) {
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
+    gl.enable(gl.CULL_FACE);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -146,11 +146,12 @@ function draw(gl, programInfo, buffers, texture) {
     glMatrix.mat4.ortho(projectionMatrix, 0, 500, 0, 500, -250, 250);
 
     const modelViewMatrix = glMatrix.mat4.create();
-    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 250, 0]);
-    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, Math.PI/9, [-1, 0, 0]);
-    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, Math.PI/4, [0, -1, 0]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 100, -100]);
+    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
+    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 7*Math.PI/4, [0, 1, 0]);
     glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [5, 5, 5]);
-    // glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-14, -6, 0]);
+    // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
+    // glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, 0]);
 
     {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
