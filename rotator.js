@@ -49,4 +49,46 @@ function Rotator(canvas, callback, rotX, rotY) {
         }
         return mat;
     };
+    let prevX, prevY;
+    let dragging = false;
+    function doMouseDown(event) {
+        if (dragging) {
+            return;
+        }
+        dragging = true;
+        document.addEventListener('mousemove', doMouseDrag, false);
+        document.addEventListener('mouseup', doMouseUp, false)
+        let r = canvas.getBoundingClientRect();
+        prevX = event.clientX - r.left;
+        prevY = event.clientY - r.top;
+    };
+    function doMouseDrag(event) {
+        if (!dragging) {
+            return;
+        }
+        let r = canvas.getBoundingClientRect();
+        let x = event.clientX - r.left;
+        let y = event.clientY - r.top;
+        let newRotX = rotateX + degreesPerPixelX * (y - prevY);
+        let newRotY = rotateY + degreesPerPixelY * (x - prevX);
+        // newRotX = Math.max(-xLimit, Math.min(xLimit,newRotX));
+        newRotX = Math.max(337.5, Math.min(337.5,newRotX)); // 330 - 340
+        prevX = x;
+        prevY = y;
+        if (newRotX != rotateX || newRotY != rotateY) {
+            rotateX = newRotX;
+            rotateY = newRotY;
+            if (callback) {
+                callback();
+            }
+        }
+    };
+    function doMouseUp(event) {
+        if (!dragging) {
+            return;
+        }
+        dragging = false;
+        document.removeEventListener('mousemove', doMouseDrag, false);
+        document.removeEventListener('mouseup', doMouseUp, false);
+    };
 }
