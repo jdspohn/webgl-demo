@@ -33,3 +33,9 @@ input, textarea ,select {
 canvas {
     display: block;
 }
+
+#test {
+    width: 20px;
+    height: 20px;
+    background-color: skyblue;
+}

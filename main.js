@@ -48,7 +48,7 @@ async function main() {
 
     const texture = await loadTexture(gl, 'texture.png');
     
-    const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 337.5, 315);
+    const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 315);
     
     draw(gl, programInfo, buffers, texture, rotator);
 }
@@ -147,13 +147,15 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     const projectionMatrix = glMatrix.mat4.create();
     glMatrix.mat4.ortho(projectionMatrix, 0, 500, 0, 500, -250, 250);
 
-    let modelViewMatrix = rotator.getViewMatrix();
-    // glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 100, -100]);
-    // glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
-    // glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 7*Math.PI/4, [0, 1, 0]);
-    // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [5, 5, 5]);
+    const modelViewMatrix = glMatrix.mat4.create();
+    let yRotation = rotator.getRotation();
+    
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 250, 0]);
+    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
+    glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
+    glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [5, 5, 5]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-14, -6, -14]);
     // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
-    // glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, 0]);
 
     {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
