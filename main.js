@@ -48,7 +48,7 @@ async function main() {
 
     const texture = await loadTexture(gl, 'texture.png');
     
-    const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 315);
+    const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 315, 5);
     
     draw(gl, programInfo, buffers, texture, rotator);
 }
@@ -149,25 +149,22 @@ function draw(gl, programInfo, buffers, texture, rotator) {
 
     const modelViewMatrix = glMatrix.mat4.create();
     let yRotation = rotator.getRotation();
+    let scale = rotator.getScale();
     
     glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 250, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
-    glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [5, 5, 5]);
+    glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, scale]);
     glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-14, -6, -14]);
     // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
 
-    {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
-        gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
-    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+    gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
 
-    {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoords);
-        gl.vertexAttribPointer(programInfo.attribLocations.textureCoords, 2, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(programInfo.attribLocations.textureCoords);
-    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoords);
+    gl.vertexAttribPointer(programInfo.attribLocations.textureCoords, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(programInfo.attribLocations.textureCoords);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
@@ -180,9 +177,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
-    {
-        gl.drawElements(gl.TRIANGLES, 18, gl.UNSIGNED_SHORT, 0);
-    }
+    gl.drawElements(gl.TRIANGLES, 18, gl.UNSIGNED_SHORT, 0);
 }
 
 function initProgram(gl, vsSource, fsSource) {

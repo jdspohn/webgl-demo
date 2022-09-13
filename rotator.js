@@ -1,4 +1,5 @@
-function Rotator(canvas, callback, rotY) {
+function Rotator(canvas, callback, rotY, scale) {
+    canvas.addEventListener('wheel', doWheel, false);
     canvas.addEventListener('mousedown', doMouseDown, false);
     let rotateY = (rotY === undefined) ? 0 : rotY;
     let degreesPerPixelY = 180/canvas.width;
@@ -43,4 +44,19 @@ function Rotator(canvas, callback, rotY) {
         let yRotation = rotateY/180*Math.PI;
         return yRotation;
     };
+
+    function doWheel(event) {
+        let sign = Math.sign(-event.deltaY);
+        if (sign == 1 && scale < 5) {
+            scale++;
+            callback();
+        } else if (sign == -1 && scale > 1) {
+            scale--;
+            callback();
+        }
+    }
+
+    this.getScale = function() {
+        return scale;
+    }
 }
