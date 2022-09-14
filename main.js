@@ -55,54 +55,92 @@ async function main() {
 
 function initBuffers(gl) {
     const positions = [
-        // front face
-        0, 0, 0,
-        28, 0, 0,
-        28, 12, 0,
-        0, 12, 0,
-        // left face
-        0, 0, 28,
-        0, 0, 0,
-        0, 12, 0,
-        0, 12, 28,
-        // grass tile
+        // 0,0 SW WATER TILE
         0, 12, 0,
         28, 12, 0,
         28, 12, 28,
         0, 12, 28,
+        // 1,0
+        28, 12, 0,
+        56, 12, 0,
+        56, 12, 28,
+        28, 12, 28,
+        // 2,0
+        56, 12, 0,
+        84, 12, 0,
+        84, 12, 28,
+        56, 12, 28,
+        // 3,0
+        84, 12, 28,
+        84, 12, 0,
+        84, 24, 0,
+        84, 24, 28,
+
+        84, 24, 0,
+        112, 36, 0,
+        112, 36, 28,
+        84, 24, 28,
+        // 4,0
+        112, 36, 0,
+        140, 36, 0,
+        140, 36, 28,
+        112, 36, 28,
+
     ];
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
     const textureCoordinates = [
-        // front face
-        8/256, 405/1024,
-        27/256, 405/1024,
-        27/256, 396/1024,
-        8/256,  396/1024,
-        // left face
-        8/256, 393/1024,
-        27/256, 393/1024,
-        27/256, 384/1024,
-        8/256, 384/1024,
-        // grass tile
-        88/256, 599/1024,
-        107/256, 599/1024,
-        107/256, 580/1024,
-        88/256, 580/1024,
+        // 0,0 SW WATER TILE
+        148/256, 503/1024,
+        167/256, 503/1024,
+        167/256, 484/1024,
+        148/256, 484/1024,
+        // 1,0
+        168/256, 503/1024,
+        187/256, 503/1024,
+        187/256, 484/1024,
+        168/256, 484/1024,
+        // 2,0
+        188/256, 503/1024,
+        207/256, 503/1024,
+        207/256, 484/1024,
+        188/256, 484/1024,
+        // 3,0
+        8/256, 17/1024,
+        27/256, 17/1024,
+        27/256, 8.15/1024,
+        8/256, 8.15/1024,
+
+        68.15/256, 759/1024,
+        87/256, 759/1024,
+        87/256, 740/1024,
+        68.15/256, 740/1024,
+        // 4,0
+        68.15/256, 187/1024,
+        87/256, 187/1024,
+        87/256, 168/1024,
+        68.15/256, 168/1024,
+
     ];
     const textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
 
     const indices = [
-        // front face
+        // 0,0 SW WATER TILE
         0, 1, 2,    0, 2, 3,
-        // left face
+        // 1,0
         4, 5, 6,    4, 6, 7,
-        // grass face
+        // 2,0
         8, 9, 10,   8, 10, 11,
+        // 3,0
+        12, 13, 14, 12, 14, 15,
+
+        16, 17, 18, 16, 18, 19,
+        // 4,0
+        20, 21, 22, 20, 22, 23,
     ];
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -136,7 +174,7 @@ async function loadTexture(gl, url) {
 }
 
 function draw(gl, programInfo, buffers, texture, rotator) {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -145,7 +183,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const projectionMatrix = glMatrix.mat4.create();
-    glMatrix.mat4.ortho(projectionMatrix, 0, 500, 0, 500, -250, 250);
+    glMatrix.mat4.ortho(projectionMatrix, 0, 500, 0, 500, 500, -500);
 
     const modelViewMatrix = glMatrix.mat4.create();
     let yRotation = rotator.getRotation();
@@ -155,7 +193,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
     glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, scale]);
-    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-14, -6, -14]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-70, -24, -14]);
     // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
@@ -177,7 +215,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
-    gl.drawElements(gl.TRIANGLES, 18, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
 }
 
 function initProgram(gl, vsSource, fsSource) {
