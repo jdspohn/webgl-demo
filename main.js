@@ -85,7 +85,46 @@ function initBuffers(gl) {
         140, 36, 0,
         140, 36, 28,
         112, 36, 28,
+        // 5,0
+        140, 36, 28,
+        140, 36, 0,
+        140, 48, 0,
+        140, 48, 28,
 
+        140, 48, 0,
+        168, 48, 0,
+        168, 48, 28,
+        140, 48, 28,
+        // 6,0
+        168, 48, 28,
+        168, 48, 0,
+        168, 60, 0,
+        168, 60, 28,
+
+        168, 60, 0,
+        196, 60, 0,
+        196, 60, 28,
+        168, 60, 28,
+        // 7,0
+        196, 60, 28,
+        196, 60, 0,
+        196, 72, 0,
+        196, 72, 28,
+
+        196, 72, 0,
+        224, 72, 0,
+        224, 72, 28,
+        196, 72, 28,
+        // 8,0
+        224, 72, 0,
+        252, 72, 0,
+        252, 72, 28,
+        224, 72, 28,
+        // 9,0
+        252, 72, 0,
+        280, 72, 0,
+        280, 72, 28,
+        252, 72, 28,
     ];
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -122,7 +161,46 @@ function initBuffers(gl) {
         87/256, 187/1024,
         87/256, 168/1024,
         68.15/256, 168/1024,
+        // 5,0
+        28/256, 137/1024,
+        47/256, 137/1024,
+        47/256, 128.15/1024,
+        28/256, 128.15/1024,
 
+        28.15/256, 127/1024,
+        47/256, 127/1024,
+        47/256, 108/1024,
+        28.15/256, 108/1024,
+        // 6,0
+        48/256, 137/1024,
+        67/256, 137/1024,
+        67/256, 128.15/1024,
+        48/256, 128.15/1024,
+
+        48.15/256, 127/1024,
+        67/256, 127/1024,
+        67/256, 108/1024,
+        48.15/256, 108/1024,
+        // 7,0
+        68/256, 137/1024,
+        87/256, 137/1024,
+        87/256, 128.15/1024,
+        68/256, 128.15/1024,
+
+        68.15/256, 127/1024,
+        87/256, 127/1024,
+        87/256, 108/1024,
+        68.15/256, 108/1024,
+        // 8,0
+        148.15/256, 759/1024,
+        167/256, 759/1024,
+        167/256, 740/1024,
+        148.15/256, 740/1024,
+        // 9,0
+        168/256, 759/1024,
+        187/256, 759/1024,
+        187/256, 740/1024,
+        168/256, 740/1024,
     ];
     const textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
@@ -141,6 +219,22 @@ function initBuffers(gl) {
         16, 17, 18, 16, 18, 19,
         // 4,0
         20, 21, 22, 20, 22, 23,
+        // 5,0
+        24, 25, 26, 24, 26, 27,
+
+        28, 29, 30, 28, 30, 31,
+        // 6,0
+        32, 33, 34, 32, 34, 35,
+
+        36, 37, 38, 36, 38, 39,
+        // 7,0
+        40, 41, 42, 40, 42, 43,
+
+        44, 45, 46, 44, 46, 47,
+        // 8,0
+        48, 49, 50, 48, 50, 51,
+        // 9,0
+        52, 53, 54, 52, 54, 55,
     ];
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -178,7 +272,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
-    gl.enable(gl.CULL_FACE);
+    // gl.enable(gl.CULL_FACE);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -193,7 +287,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
     glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, scale]);
-    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-70, -24, -14]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-140, -36, -14]);
     // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
@@ -215,7 +309,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
-    gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, 84, gl.UNSIGNED_SHORT, 0);
 }
 
 function initProgram(gl, vsSource, fsSource) {
