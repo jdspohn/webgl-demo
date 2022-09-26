@@ -33,3 +33,10 @@ input, textarea ,select {
 canvas {
     display: block;
 }
+
+body {
+    height: 100vh;
+    width: 100vw;
+    /* background-image: linear-gradient(rgb(48,64,80), rgb(96,112,128)); */
+    background-image: linear-gradient(rgb(67,130,248), rgb(210,234,226));
+}
