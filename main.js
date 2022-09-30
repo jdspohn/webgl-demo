@@ -1130,9 +1130,64 @@ function initBuffers(gl) {
         168, 228, 252,
         140, 228, 252,
 
-        // 171, 300, 284,
-        // 182, 300, 284,
-        // 182, 324, 294,
+        140, 228, 252,
+        168, 228, 252,
+        182, 252, 262,
+        151, 252, 262,
+        //
+        151, 252, 262,
+        182, 252, 262,
+        182, 276, 273,
+        161, 276, 273,
+        //
+        161, 276, 273,
+        182, 276, 273,
+        182, 300, 284,
+        171, 300, 284,
+        //
+        171, 300, 284,
+        182, 300, 284,
+        182, 324, 294,
+        
+        140, 96, 280,
+        140, 96, 252,
+        140, 144, 252,
+        140, 144, 280,
+        140, 144, 280,
+        140, 144, 252,
+        140, 156, 252,
+        140, 156, 280,
+        140, 156, 280,
+        140, 156, 252,
+        140, 180, 252,
+        140, 180, 280,
+        140, 180, 280,
+        140, 180, 252,
+        140, 204, 252,
+        140, 204, 280,
+        140, 204, 280,
+        140, 204, 252,
+        140, 228, 252,
+        140, 228, 280,
+
+        140, 228, 280,
+        140, 228, 252,
+        151, 252, 262,
+        151, 252, 294,
+        //
+        151, 252, 294,
+        151, 252, 262,
+        161, 276, 273,
+        161, 276, 294,
+        //
+        161, 276, 294,
+        161, 276, 273,
+        171, 300, 284,
+        171, 300, 294,
+        //
+        171, 300, 294,
+        171, 300, 284,
+        182, 324, 294,
     ];
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -2629,6 +2684,22 @@ function initBuffers(gl) {
         878, 879, 880,  878, 880, 881,
         882, 883, 884,  882, 884, 885,
         886, 887, 888,  886, 888, 889,
+
+        890, 891, 892,  890, 892, 893,
+        894, 895, 896,  894, 896, 897,
+        898, 899, 900,  898, 900, 901,
+        902, 903, 904,
+
+        905, 906, 907,  905, 907, 908,
+        909, 910, 911,  909, 911, 912,
+        913, 914, 915,  913, 915, 916,
+        917, 918, 919,  917, 919, 920,
+        921, 922, 923,  921, 923, 924,
+
+        925, 926, 927,  925, 927, 928,
+        929, 930, 931,  929, 931, 932,
+        933, 934, 935,  933, 935, 936,
+        937, 938, 939,
     ];
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -2681,7 +2752,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
     glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, scale]);
-    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-140, -140, -252]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [-140, -300, -252]);
     // glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [1, 2/3, 1]);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
@@ -2703,7 +2774,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
-    gl.drawElements(gl.TRIANGLES, 1290, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, 1362, gl.UNSIGNED_SHORT, 0);
 }
 
 function initProgram(gl, vsSource, fsSource) {
