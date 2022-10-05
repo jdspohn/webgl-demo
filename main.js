@@ -1143,9 +1143,9 @@ function initBuffers(gl) {
         161, 276, 273,
         182, 276, 273,
         182, 300, 284,
-        171, 300, 284,
+        172, 300, 284,
         //
-        171, 300, 284,
+        172, 300, 284,
         182, 300, 284,
         182, 324, 294,
         
@@ -1182,11 +1182,11 @@ function initBuffers(gl) {
         //
         161, 276, 294,
         161, 276, 273,
-        171, 300, 284,
-        171, 300, 294,
+        172, 300, 284,
+        172, 300, 294,
         //
-        171, 300, 294,
-        171, 300, 284,
+        172, 300, 294,
+        172, 300, 284,
         182, 324, 294,
         // 6,9 MONASTERY FRONT
         168, 96, 252,
@@ -1211,6 +1211,14 @@ function initBuffers(gl) {
         168, 228, 252,
         168, 228, 252,
         196, 228, 252,
+        182, 252, 252,
+
+        168, 228, 252,
+        182, 252, 252,
+        182, 252, 263,
+
+        196, 228, 252,
+        182, 252, 263,
         182, 252, 252,
     ];
     const positionBuffer = gl.createBuffer();
@@ -2371,6 +2379,14 @@ function initBuffers(gl) {
         208.25/256, 845/1024,
         227/256, 845/1024,
         217.5/256, 826/1024,
+
+        68/256, 353/1024,
+        68/256, 328/1024,
+        55/256, 328/1024,
+
+        102/256, 352/1024,
+        117/256, 325/1024,
+        102/256, 325/1024,
     ];
     const textureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
@@ -2811,6 +2827,10 @@ function initBuffers(gl) {
         952, 953, 954,  952, 954, 955,
         956, 957, 958,  956, 958, 959,
         960, 961, 962,
+
+        963, 964, 965,
+
+        966, 967, 968,
     ];
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -2885,7 +2905,7 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
-    gl.drawElements(gl.TRIANGLES, 1395, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, 1401, gl.UNSIGNED_SHORT, 0);
 }
 
 function initProgram(gl, vsSource, fsSource) {
