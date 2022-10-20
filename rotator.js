@@ -60,3 +60,16 @@ function Rotator(canvas, callback, rotY, scale) {
         return scale;
     }
 }
+
+
+// at 0 degrees, 
+//  mouse moving right = +x (targeting -x)
+//  mouse moving up = +z (targeting -z)
+
+// at 45 degrees,
+// mouse moving right = +x, -z (targeting -x & +z)
+// mouse moving up = +x, +y, +z (targeting -x, -y, -z)
+
+// at 90 degrees,
+// mouse moving right = -z (targeting +z)
+// mouse moving up = +x (targeting -x)
