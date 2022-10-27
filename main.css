@@ -35,10 +35,10 @@ canvas {
 }
 
 body {
-    height: 100vh;
     width: 100vw;
-    background-image: linear-gradient(rgb(48,64,80), rgb(96,112,128));
-    /* background-image: linear-gradient(rgb(67,130,248), rgb(210,234,226)); */
+    height: 100vh;
+    /* background-image: linear-gradient(rgb(48,64,80), rgb(96,112,128)); */
+    background-image: linear-gradient(rgb(67,130,248), rgb(210,234,226));
     /* background-image: linear-gradient(rgb(160,232,239), rgb(0,0,24)); */
     /* background-image: linear-gradient(rgb(37,43,73), rgb(9,20,32)); */
 }

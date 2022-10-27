@@ -46,7 +46,7 @@ async function main() {
 
     const buffers = initBuffers(gl);
 
-    const texture = await loadTexture(gl, 'texture.png');
+    const texture = await loadTexture(gl, 'd0.png');
     
     const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 315, 1);
     
@@ -99,7 +99,6 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     gl.enable(gl.CULL_FACE);
-
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const projectionMatrix = glMatrix.mat4.create();
