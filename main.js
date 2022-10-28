@@ -48,9 +48,9 @@ async function main() {
 
     const texture = await loadTexture(gl, 'd0.png');
     
-    const rotator = new Rotator(canvas, () => draw(gl, programInfo, buffers, texture, rotator), 315, 1);
+    const camera = new Camera(canvas, gl, () => draw(gl, programInfo, buffers, texture, camera), 315, 1);
     
-    draw(gl, programInfo, buffers, texture, rotator);
+    draw(gl, programInfo, buffers, texture, camera);
 }
 
 function initBuffers(gl) {
@@ -93,7 +93,7 @@ async function loadTexture(gl, url) {
     return complete;
 }
 
-function draw(gl, programInfo, buffers, texture, rotator) {
+function draw(gl, programInfo, buffers, texture, camera) {
     gl.clearColor(0, 0, 0, 0);
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
@@ -101,14 +101,16 @@ function draw(gl, programInfo, buffers, texture, rotator) {
     gl.enable(gl.CULL_FACE);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
     const projectionMatrix = glMatrix.mat4.create();
-    glMatrix.mat4.ortho(projectionMatrix, 0, 500, 0, 500, 500, -500);
+    glMatrix.mat4.ortho(projectionMatrix, 0, gl.canvas.width, 0, gl.canvas.height, 1500, -1500);
 
     const modelViewMatrix = glMatrix.mat4.create();
-    let yRotation = rotator.getRotation();
-    let scale = rotator.getScale();
+    let yRotation = camera.getRotation();
+    let scale = camera.getScale();
     
-    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [250, 250, 0]);
+    glMatrix.mat4.translate(modelViewMatrix, modelViewMatrix, [gl.canvas.width/2, gl.canvas.height/2, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, 11*Math.PI/6, [1, 0, 0]);
     glMatrix.mat4.rotate(modelViewMatrix, modelViewMatrix, yRotation, [0, 1, 0]);
     glMatrix.mat4.scale(modelViewMatrix, modelViewMatrix, [scale, scale, scale]);

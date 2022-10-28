@@ -1,8 +1,13 @@
-function Rotator(canvas, callback, rotY, scale) {
+function Camera(canvas, gl, callback, rotY, scale) {
     canvas.addEventListener('wheel', doWheel, false);
     canvas.addEventListener('mousedown', doMouseDown, false);
+        
+    // create the resizeObserver and tell it to call the function above when it detects changes
+    const observer = new ResizeObserver((entries) => onResize(entries[0], gl));
+    observer.observe(gl.canvas, { box: "content-box" });
+
     let rotateY = (rotY === undefined) ? 0 : rotY;
-    let degreesPerPixelY = 180/canvas.width;
+    let degreesPerPixelY = 0.35;
     
     let prevX;
     let dragging = false;
@@ -26,9 +31,7 @@ function Rotator(canvas, callback, rotY, scale) {
         prevX = x;
         if (newRotY != rotateY) {
             rotateY = newRotY;
-            if (callback) {
-                callback();
-            }
+            callback();
         }
     };
     function doMouseUp(event) {
@@ -58,6 +61,24 @@ function Rotator(canvas, callback, rotY, scale) {
 
     this.getScale = function() {
         return scale;
+    }
+
+    function onResize(entry, gl) {
+        const size = entry.devicePixelContentBoxSize[0],
+              width = size.inlineSize,
+              height = size.blockSize;
+        if (gl.canvas.width === width && gl.canvas.height === height) {
+            return;
+        }
+        gl.canvas.width = width;
+        gl.canvas.height = height;
+        if ((gl.drawingBufferWidth < width) || (gl.drawingBufferHeight < height)) {
+            gl.canvas.width = gl.drawingBufferWidth;
+            gl.canvas.height = gl.drawingBufferHeight;
+            gl.canvas.style.width = gl.canvas.width + 'px';
+            gl.canvas.style.height = gl.canvas.height + 'px';
+        }
+        callback();
     }
 }
 
