@@ -2,9 +2,23 @@ function Camera(canvas, gl, callback, rotY, scale) {
     canvas.addEventListener('wheel', doWheel, false);
     canvas.addEventListener('mousedown', doMouseDown, false);
         
-    // create the resizeObserver and tell it to call the function above when it detects changes
     const observer = new ResizeObserver((entries) => onResize(entries[0], gl));
     observer.observe(gl.canvas, { box: "content-box" });
+
+    let index = 0;
+    let night = false;
+    setInterval(() => {
+        index = (index + 1) % 3;
+        callback();
+    }, 250);
+
+    this.getIndex = function() {
+        return index;
+    };
+
+    this.isNight = function() {
+        return night;
+    };
 
     let rotateY = (rotY === undefined) ? 0 : rotY;
     let degreesPerPixelY = 0.35;
@@ -62,6 +76,17 @@ function Camera(canvas, gl, callback, rotY, scale) {
     this.getScale = function() {
         return scale;
     }
+
+    // let num;
+    // num = 0 or 3 depending on button press (+3 or -3?)
+    // loop through [0,1,2] or [3,4,5]
+        // each step of the loop happens every (x) seconds
+        // if (!dragging) (and !resizing?) { 
+            // callback() }
+
+    // this.getNum = function() {
+    //    return num;
+    // }
 
     function onResize(entry, gl) {
         const size = entry.devicePixelContentBoxSize[0],

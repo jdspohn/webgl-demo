@@ -46,7 +46,7 @@ async function main() {
 
     const buffers = initBuffers(gl);
 
-    const texture = await loadTexture(gl, 'd0.png');
+    const texture = await loadTexture(gl);
     
     const camera = new Camera(canvas, gl, () => draw(gl, programInfo, buffers, texture, camera), 315, 1);
     
@@ -73,24 +73,27 @@ function initBuffers(gl) {
     };
 }
 
-async function loadTexture(gl, url) {
-    const texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+async function loadTexture(gl) {
+    textureObjects = new Array(textureURL.length);
+    const promises = [];
+    for (let i = 0; i < textureURL.length; i++) {
+        const image = new Image();
+        const loading = new Promise(resolve => {
+            textureObjects[i] = gl.createTexture();
+            image.onload = function() {
+                gl.bindTexture(gl.TEXTURE_2D, textureObjects[i]);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-    const image = new Image();
-
-    const complete = new Promise(resolve => {
-        image.onload = function() {
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    
-            resolve(texture);
-        };
-    })
-    image.src = url;
-    return complete;
+                resolve(textureObjects[i]);
+            };
+        });
+        image.src = textureURL[i];
+        promises.push(loading);
+    }
+    await Promise.all(promises);
+    return textureObjects;
 }
 
 function draw(gl, programInfo, buffers, texture, camera) {
@@ -133,8 +136,9 @@ function draw(gl, programInfo, buffers, texture, camera) {
     gl.uniformMatrix4fv(programInfo.uniformLocations.projectionMatrix, false, projectionMatrix);
     gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
 
+    let index = camera.getIndex() + (camera.isNight() * 3);
     gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.bindTexture(gl.TEXTURE_2D, texture[index]);
     gl.uniform1i(programInfo.uniformLocations.uTexture, 0);
 
     gl.drawElements(gl.TRIANGLES, 2997, gl.UNSIGNED_SHORT, 0);

@@ -1,3 +1,13 @@
+let textureObjects;
+const textureURL = [
+    "textures/day0.png",
+    "textures/day1.png",
+    "textures/day2.png",
+    "textures/night0.png",
+    "textures/night1.png",
+    "textures/night2.png",
+];
+
 const positions = [
     // F L R B T
     // 0,0 SW WATER TILE
