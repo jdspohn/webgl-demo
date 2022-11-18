@@ -25,7 +25,7 @@ function Camera(canvas, gl, callback, rotY, scale) {
 
     function doBtn(event) {
         body.classList.toggle('night');
-        // btn.classList.toggle('btnselect');
+        btn.classList.toggle('btnselect');
         night = !night;
         callback();
     }
