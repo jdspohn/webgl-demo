@@ -1,6 +1,9 @@
 function Camera(canvas, gl, callback, rotY, scale) {
+    const body = document.querySelector('body');
+    const btn = document.querySelector('#btn');
     canvas.addEventListener('wheel', doWheel, false);
     canvas.addEventListener('mousedown', doMouseDown, false);
+    btn.addEventListener('click', doBtn, false);
         
     const observer = new ResizeObserver((entries) => onResize(entries[0], gl));
     observer.observe(gl.canvas, { box: "content-box" });
@@ -20,8 +23,15 @@ function Camera(canvas, gl, callback, rotY, scale) {
         return night;
     };
 
+    function doBtn(event) {
+        body.classList.toggle('night');
+        // btn.classList.toggle('btnselect');
+        night = !night;
+        callback();
+    }
+
     let rotateY = (rotY === undefined) ? 0 : rotY;
-    let degreesPerPixelY = 0.35;
+    let degreesPerPixelY = 0.25;
     
     let prevX;
     let dragging = false;
@@ -77,17 +87,6 @@ function Camera(canvas, gl, callback, rotY, scale) {
         return scale;
     }
 
-    // let num;
-    // num = 0 or 3 depending on button press (+3 or -3?)
-    // loop through [0,1,2] or [3,4,5]
-        // each step of the loop happens every (x) seconds
-        // if (!dragging) (and !resizing?) { 
-            // callback() }
-
-    // this.getNum = function() {
-    //    return num;
-    // }
-
     function onResize(entry, gl) {
         const size = entry.devicePixelContentBoxSize[0],
               width = size.inlineSize,
@@ -106,16 +105,3 @@ function Camera(canvas, gl, callback, rotY, scale) {
         callback();
     }
 }
-
-
-// at 0 degrees, 
-//  mouse moving right = +x (targeting -x)
-//  mouse moving up = +z (targeting -z)
-
-// at 45 degrees,
-// mouse moving right = +x, -z (targeting -x & +z)
-// mouse moving up = +x, +y, +z (targeting -x, -y, -z)
-
-// at 90 degrees,
-// mouse moving right = -z (targeting +z)
-// mouse moving up = +x (targeting -x)
