@@ -48,7 +48,7 @@ async function main() {
 
     const texture = await loadTexture(gl);
     
-    const camera = new Camera(canvas, gl, () => draw(gl, programInfo, buffers, texture, camera), 315, 1);
+    const camera = new Camera(canvas, gl, () => draw(gl, programInfo, buffers, texture, camera), 315, 2);
     
     draw(gl, programInfo, buffers, texture, camera);
 }

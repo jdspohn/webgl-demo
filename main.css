@@ -28,7 +28,7 @@ input, textarea ,select {
     outline: none;
 }
 
-/* BODY */
+/* MAIN */
 
 body {
     position: relative;
@@ -37,21 +37,6 @@ body {
     /* background-image: linear-gradient(rgb(67,130,248), rgb(210,234,226)); */
     background-image: linear-gradient(rgb(160,232,239), rgb(0,0,24));
 }
-
-/* #body:after {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    z-index: -1;
-    content: url("icons/btn.png")
-             url("icons/btnhover.png")
-             url("icons/btnselect.png");
-} */
-
-/* #preload {
-    display:none;
-} */
 
 .night {
     background-image: linear-gradient(rgb(37,43,73), rgb(9,20,32));
@@ -88,12 +73,16 @@ canvas {
     transition-delay: 5ms;
 }
 
+#btn:hover {
+    background-color: rgb(100,100,100);
+}
+
 #btn.btnselect {
     color: #fff;
     background-color: rgb(125,125,125);
     border-bottom: 1px solid skyblue;
 }
 
-#btn:hover {
-    background-color: rgb(125,125,125);
+#btn.btnselect:hover {
+    background-color: rgb(150,150,150);
 }
