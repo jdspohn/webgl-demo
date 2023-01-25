@@ -62,7 +62,7 @@ canvas {
     line-height: 22px;
     background-color: rgb(75,75,75);
     border: 1px solid #000;
-    transition: 0.25s;
+    /* transition: 0.1s; */
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
