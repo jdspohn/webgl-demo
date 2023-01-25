@@ -62,6 +62,7 @@ canvas {
     line-height: 22px;
     background-color: rgb(75,75,75);
     border: 1px solid #000;
+    transition: 0.25s;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -69,8 +70,6 @@ canvas {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-
-    transition-delay: 5ms;
 }
 
 #btn:hover {
